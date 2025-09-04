@@ -52,3 +52,4 @@ public class SupermarketSimulator {
         }
     }
 }
+// Temporary comment for pipeline
