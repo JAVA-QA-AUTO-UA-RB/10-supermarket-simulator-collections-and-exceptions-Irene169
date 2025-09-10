@@ -21,17 +21,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+
       - name: Compile and run SupermarketSimulator
         run: |
-          javac main/java/SupermarketSimulator.java
-          java -cp main/java SupermarketSimulator
-        continue-on-error: false
-
-      - name: Check exit code
-        run: |
-          if [ $? -eq 0 ]; then
-            echo "SupermarketSimulator ran successfully with exit code 0"
-          else
-            echo "SupermarketSimulator failed with non-zero exit code"
-            exit 1
-          fi
+            javac -d out $(find src/main/java -name '*.java')
+            java -cp out main.java.SupermarketSimulator
