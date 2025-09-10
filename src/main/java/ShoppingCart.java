@@ -1,18 +1,22 @@
+import exceptions.CartLimitExceededException;
+import exceptions.InsufficientFundsException;
+import exceptions.NoSuchProductException;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ShoppingCart {
     private final List<String> cart = new ArrayList<>();
     private final int CART_LIMIT = 10;
+    private double finalSubtotal;
+    private double finalTax;
+    private double finalDiscount;
+    private double finalAmount;
 
-    // Adding product to cart, thrown an exception if the cart limit is reached
+    // Adding product to cart. throw an exception if the cart list is reached
     public void addToCart(String product) throws CartLimitExceededException {
-        if (product == null || product.isBlank()) {
-            throw new IllegalArgumentException("Назва товару не може бути порожньою!");
-        }
         if (cart.size() >= CART_LIMIT) {
-            throw new CartLimitExceededException("Кошик заповнений! Ліміт: " + CART_LIMIT + " товарів.");
+            throw new CartLimitExceededException("Кошик переповнений! Ліміт: " + CART_LIMIT + " товарів");
         }
         cart.add(product);
     }
@@ -30,44 +34,36 @@ public class ShoppingCart {
                 hasMilk = true;
             }
         }
-// Calculate as 10% of the total
-        double tax = total * 0.1;
-        // Generate random discount between 5 and 15%
-        double discount = Math.random() * 0.1 + 0.05;
-        // Extra 5% discount if the cart contains milk
-        if (hasMilk) discount += 0.05;
-// Final amount
-        double finalAmount = (total + tax) * (1 - discount);
-        // Check if payment is sufficient
+
+        finalSubtotal = total;
+        finalTax = total * 0.1;
+        finalDiscount = Math.random() * 0.1 + 0.05;
+
+        if (hasMilk) finalDiscount += 0.05;
+        finalAmount = (finalSubtotal + finalTax) * (1 - finalDiscount);
         if (payment < finalAmount) {
             throw new InsufficientFundsException("Недостатньо коштів! Потрібно: " + finalAmount + " маємо: " + payment);
         }
         return finalAmount;
     }
 
-    // Return a copy of the cart
     public List<String> getCart() {
         return new ArrayList<>(cart);
+
+        // Print receipt
     }
 
-    // Print receipt
     public void printReceipt(PriceCatalog catalog) {
-        double total = 0.0;
-        boolean hasMilk = false;
-        System.out.println("-----ЧЕК-----");
+        System.out.println("-------- ЧЕК --------");
         for (String product : cart) {
             double price = catalog.getPrice(product);
-            System.out.println(product + " : " + price + " $");
-            total += price;
-            if (product.equalsIgnoreCase("Milk")) hasMilk = true;
+            System.out.println(product + ": " + String.format("%.2f", price) + " грн");
         }
-        double tax = total * 0.1;
-        double discount = Math.random() * 0.1 + 0.05;
-        if (hasMilk) discount += 0.05;
-        double finalAmount = (total + tax) * (1 - discount);
-        System.out.println("Податок: " + tax + " $");
-        System.out.println("Знижка: " + (discount * 100) + "%");
-        System.out.println("До оплати: " + finalAmount + " $");
-        System.out.println("---------");
+        System.out.println("---------------------");
+        System.out.println("Підсумок: " + String.format("%.2f", finalSubtotal) + " грн");
+        System.out.println("Податок (10%): " + String.format("%.2f", finalTax) + " грн");
+        System.out.println("Знижка: " + String.format("%.2f", finalDiscount * 100) + "%");
+        System.out.println("До сплати: " + String.format("%.2f", finalAmount) + " грн");
+        System.out.println("---------------------");
     }
 }

@@ -1,3 +1,5 @@
+import exceptions.NoSuchProductException;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -6,22 +8,18 @@ public class PriceCatalog {
 
     // Adding price
     public void addPrice(String product, double price) {
-        if (product == null || product.isBlank()) {
-            throw new IllegalArgumentException("Назва категорії не може бути порожньою!");
-        }
         if (price < 0) {
-            throw new IllegalArgumentException("Ціна не може бути від'ємною для товару: " + product);
+            throw new IllegalArgumentException("Ціна не може бути від'ємною для товара: " + product);
         }
         prices.put(product, price);
     }
 
     // Get price
     public double getPrice(String product) throws NoSuchProductException {
-        Double price = prices.get(product);
-        if (price == null) {
-            throw new NoSuchProductException("Товар " + product + " відсутній у каталозі цін!");
+        if (!prices.containsKey(product)) {
+            throw new NoSuchProductException("Товар " + product + " відсутній у каталозі");
         }
-        return price;
+        return prices.get(product);
     }
 
     // Receiving copy of catalog with prices

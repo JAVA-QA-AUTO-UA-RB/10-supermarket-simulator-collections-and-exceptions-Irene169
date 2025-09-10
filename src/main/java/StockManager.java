@@ -1,3 +1,5 @@
+import exceptions.OutOfStockException;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -6,23 +8,20 @@ public class StockManager {
 
     // Add stock
     public void addStock(String product, int quantity) {
-        if (product == null || product.isBlank()) {
-            throw new IllegalArgumentException("Назва товару не може бути порожньою!");
-        }
         if (quantity < 0) {
-            throw new IllegalArgumentException("Кількість не може бути від'ємною для товару: " + product);
+            throw new IllegalArgumentException("Кількість не може бути від'ємною дл товару: " + product);
         }
         stock.put(product, stock.getOrDefault(product, 0) + quantity);
     }
 
     // Reduce stock
     public void reduceStock(String product) throws OutOfStockException {
-        if (product == null || product.isBlank()) {
-            throw new IllegalArgumentException("Назва товару не може бути порожньою!");
+        if (!stock.containsKey(product)) {
+            throw new OutOfStockException("Товар " + product + " відсутній!");
         }
-        Integer current = stock.get(product);
-        if (current == null || current <= 0) {
-            throw new OutOfStockException("Товар " + product + " закінчився! Спробуйте інший!");
+        int current = stock.get(product);
+        if (current <= 0) {
+            throw new OutOfStockException("Товар " + product + " закінчився!");
         }
         stock.put(product, current - 1);
     }

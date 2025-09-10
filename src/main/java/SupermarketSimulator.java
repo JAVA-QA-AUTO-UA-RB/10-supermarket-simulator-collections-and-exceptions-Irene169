@@ -1,11 +1,11 @@
+import exceptions.CartLimitExceededException;
+import exceptions.OutOfStockException;
+import exceptions.DuplicateCategoryException;
+import exceptions.NoSuchProductException;
+import exceptions.InsufficientFundsException;
+
 public class SupermarketSimulator {
     public static void main(String[] args) {
-
-        // Це шаблон симуляції супермаркету
-        // Вам потрібно буде добитися, щоб код нижче працював, коли ви його розкоментуєте
-        // НЕ ЗМІНЮЙТЕ КОД НАВЕДЕНИЙ НИЖЧЕ, навпаки, напишіть та реалізуйте необхідні класи та методи, щоб код наведений нижче запрацював
-        // таким чином працюємо "від зворотнього"
-        // Підказки по реалізації будуть в файлі README.md
 
         ProductInventory inventory = new ProductInventory();
         CategoryManager categories = new CategoryManager();
@@ -45,9 +45,8 @@ public class SupermarketSimulator {
             System.out.println("Кошик: " + cart.getCart());
 
         } catch (OutOfStockException | NoSuchProductException | InsufficientFundsException |
-                 DuplicateCategoryException | IllegalArgumentException e) {
+                 DuplicateCategoryException | IllegalArgumentException | CartLimitExceededException e) {
             System.out.println("Помилка: " + e.getMessage());
         }
     }
 }
-// Temporary comment for pipeline
