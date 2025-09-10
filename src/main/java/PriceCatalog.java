@@ -1,4 +1,6 @@
-import exceptions.NoSuchProductException;
+package main.java;
+
+import main.java.exceptions.NoSuchProductException;
 
 import java.util.Map;
 import java.util.HashMap;

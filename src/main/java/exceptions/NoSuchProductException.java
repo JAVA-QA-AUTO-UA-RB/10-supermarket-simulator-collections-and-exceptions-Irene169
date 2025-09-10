@@ -1,4 +1,4 @@
-package exceptions;
+package main.java.exceptions;
 
 public class NoSuchProductException extends RuntimeException {
     public NoSuchProductException(String message) {

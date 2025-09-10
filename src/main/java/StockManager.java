@@ -1,4 +1,6 @@
-import exceptions.OutOfStockException;
+package main.java;
+
+import main.java.exceptions.OutOfStockException;
 
 import java.util.Map;
 import java.util.HashMap;

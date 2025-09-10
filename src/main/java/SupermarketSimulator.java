@@ -1,8 +1,10 @@
-import exceptions.CartLimitExceededException;
-import exceptions.OutOfStockException;
-import exceptions.DuplicateCategoryException;
-import exceptions.NoSuchProductException;
-import exceptions.InsufficientFundsException;
+package main.java;
+
+import main.java.exceptions.CartLimitExceededException;
+import main.java.exceptions.OutOfStockException;
+import main.java.exceptions.DuplicateCategoryException;
+import main.java.exceptions.NoSuchProductException;
+import main.java.exceptions.InsufficientFundsException;
 
 public class SupermarketSimulator {
     public static void main(String[] args) {
